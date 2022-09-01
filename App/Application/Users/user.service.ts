@@ -5,7 +5,7 @@ import { UserRepository } from 'App/Infrastructure/MYSQL Respository/User/user.r
 @Injectable()
 export class UsersService {
 
-    constructor() { }
+    constructor(private userRepository: UserRepository) { }
 
     async getUsers() {
         return UserRepository.fetchAll()
@@ -17,9 +17,9 @@ export class UsersService {
     //     });
     // }
 
-    // async createUser() {
-    //     return this.UserModel.save()
-    // }
+    async createUser() {
+        // const
+    }
 
     // async updateUser() {
     //     return this.UserModel.save()

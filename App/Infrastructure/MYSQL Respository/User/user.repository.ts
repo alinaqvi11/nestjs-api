@@ -6,7 +6,10 @@ export class UserRepository {
 
     static fetchAll = async () => {
         try {
-            return User.findAll();
+            const user = await User.findAll();
+            return user.map(userObj => {
+                return UserEntity.createFromObject(userObj)
+            })
         } catch (error) {
             Logger.error(error, ">>>>>>>>>")
         }
@@ -18,6 +21,16 @@ export class UserRepository {
         } catch (error) {
             Logger.error(error, ">>>>>>>>>")
         }
+    }
+
+    static createUser = async () => {
+        try {
+            // return User.findOne(searchFilter)
+
+        } catch (error) {
+            Logger.error(error, ">>>>>>>>>")
+        }
+
     }
 
 }

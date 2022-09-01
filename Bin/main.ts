@@ -2,8 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from '../Http/app.module';
 import { Logger } from '@nestjs/common';
 import { databaseProviders } from '../App/Infrastructure/Database/database.providers'
-import * as dotenv from 'dotenv';
-dotenv.config()
+
 
 async function bootstrap() {
   const port = process.env.PORT;

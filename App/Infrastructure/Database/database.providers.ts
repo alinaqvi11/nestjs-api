@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { Sequelize } from 'sequelize-typescript';
-import User from '../Model/user.model';
+import user from '../Model/user.model';
 import { database } from '../Config/index';
 
 const mysql = database;
@@ -19,7 +19,7 @@ export const databaseProviders = [
                     logging: false,
                 });
 
-            sequelize.addModels([User]);
+            sequelize.addModels([user]);
             await sequelize.sync();
             Logger.log("!!!!!!!!Database connected successfully!!!!!!!!!")
             return sequelize;

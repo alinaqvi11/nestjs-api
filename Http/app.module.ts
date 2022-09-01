@@ -10,20 +10,8 @@ import { DatabaseModule } from 'App/Infrastructure/Database/dbProvider.module';
 @Module({
 
   imports: [
-    // ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
-    // SequelizeModule.forRoot({
-    //   dialect: 'mysql',
-    //   host: 'localhost',
-    //   username: 'ali',
-    //   password: 'ali',
-    //   database: 'todoApp',
-    //   models: [User],
-    //   autoLoadModels: true,
-    //   synchronize: true,
-    // }),
-    // UsersModule
-
   ],
   providers: [UsersService],
   controllers: [UsersController],

@@ -5,7 +5,7 @@ import { UserRepository } from 'App/Infrastructure/MYSQL Respository/User/user.r
 @Injectable()
 export class UsersService {
 
-    constructor(private userRepository: UserRepository) { }
+    constructor() { }
 
     async getUsers() {
         return UserRepository.fetchAll()

@@ -1,7 +1,8 @@
 import { Logger } from "@nestjs/common";
 import TodoModel from "App/Infrastructure/Model/todo.model";
-import { ITodoRepository } from "App/Domain/Core/ITodoRepository";
-import { TodoEntity } from "App/Domain/Core/todo.entity";
+import { ITodoRepository } from "App/Domain/Core/Todo/ITodoRepository";
+import { TodoEntity } from "App/Domain/Core/Todo/todo.entity";
+import DatabaseError from "App/Infrastructure/Errors/DatabaseError";
 
 class UserRepository implements ITodoRepository {
     constructor() { }
@@ -13,31 +14,33 @@ class UserRepository implements ITodoRepository {
                 return TodoEntity.createFromObject(todoObj)
             })
         } catch (error) {
-            Logger.error(error, ">>>>>>>>>")
+            throw new DatabaseError(error.message);
         }
     }
     async fetchById(searchFilter) {
         try {
-            return TodoModel.findOne(searchFilter)
+            return TodoModel.findOne({
+                where: searchFilter
+            })
 
         } catch (error) {
-            Logger.error(error, ">>>>>>>>>")
+            throw new DatabaseError(error.message);
         }
     }
 
     async createTodo(body) {
         try {
-            await TodoModel.create(body);
+            return TodoModel.create(body);
             return true;
 
         } catch (error) {
-            Logger.error(error, ">>>>>>>>>")
+            throw new DatabaseError(error.message);
         }
     }
 
     async updateTodo(body) {
         try {
-            await TodoModel.update(body,
+            return TodoModel.update(body,
                 {
                     where: {
                         todoId: body.todoId
@@ -46,15 +49,13 @@ class UserRepository implements ITodoRepository {
             return true;
 
         } catch (error) {
-            Logger.error(error, ">>>>>>>>>")
+            throw new DatabaseError(error.message);
         }
     }
 
     async deletTodoById(id, hardDelete) {
         try {
-            console.log(hardDelete);
-
-            await TodoModel.destroy(
+            return TodoModel.destroy(
                 {
                     where: {
                         todoId: id
@@ -64,7 +65,7 @@ class UserRepository implements ITodoRepository {
             return true;
 
         } catch (error) {
-            Logger.error(error, ">>>>>>>>>")
+            throw new DatabaseError(error.message);
         }
 
     }

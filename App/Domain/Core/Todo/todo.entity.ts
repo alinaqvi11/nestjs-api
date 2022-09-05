@@ -11,7 +11,6 @@ export class TodoEntity {
         this.todoId = todoId;
         this.todoName = todoName;
         this.todoDescription = todoDescription
-
     }
     static createFromInput = (todoId: string, body: any) => {
         const todo = new TodoEntity(

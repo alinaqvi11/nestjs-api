@@ -1,5 +1,5 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { TodoEntity } from 'App/Domain/Core/todo.entity';
+import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
+import { TodoEntity } from 'App/Domain/Core/Todo/todo.entity';
 import TodoRepository from 'App/Infrastructure/MYSQL Respository/Todo/todo.repository';
 import { v4 as uuid } from 'uuid';
 
@@ -9,59 +9,86 @@ export class TodoService {
     constructor() { }
 
     async getTodos() {
-        return TodoRepository.fetchAll()
+        try {
+            return TodoRepository.fetchAll()
+
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+
     }
 
     async getTodoById(id) {
-        const todo = await TodoRepository.fetchById(id);
-        if (!todo) {
-            return {
-                message: "todo not found"
+        try {
+            const todo = await TodoRepository.fetchById({ id });
+            if (!todo) {
+                throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
             }
+            return todo
+
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return todo
+
     }
 
     async createTodo(body) {
-        const todoBody = body;
-        const todoId = uuid();
-        const todoDto = await TodoEntity.createFromInput(todoId, todoBody)
-        const createdTodo = await TodoRepository.createTodo(todoDto);
-        if (createdTodo) {
-            return {
-                message: "created successfully"
+        try {
+            const todoBody = body;
+            const todoId = uuid();
+            const todoDto = await TodoEntity.createFromInput(todoId, todoBody)
+            const createdTodo = await TodoRepository.createTodo(todoDto);
+            if (createdTodo) {
+                return {
+                    message: "created successfully"
+                }
             }
+            return {
+                message: 'todo is not created'
+            }
+
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
-        return {
-            message: 'todo is not created'
-        }
+
     }
 
     async updateTodo(body, id) {
-        const todoBody = body;
-        const todoDto = await TodoEntity.createFromInput(id, body)
-        const updatedTodo = await TodoRepository.updateTodo(todoDto);
-        if (updatedTodo) {
-            return {
-                message: 'updated successfully'
+        try {
+            const todoBody = body;
+            const todoDto = await TodoEntity.createFromInput(id, body)
+            const updatedTodo = await TodoRepository.updateTodo(todoDto);
+            if (updatedTodo) {
+                return {
+                    message: 'updated successfully'
+                }
             }
+            return {
+                message: 'todo not updated'
+            }
+
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
-        return {
-            message: 'no todo updated'
-        }
+
     }
 
     async deleteTodo(id, hardDelete) {
-        const todo = await TodoRepository.deletTodoById(id, hardDelete = false);
-        if (!todo) {
-            return {
-                message: "todo not found"
+        try {
+            const todo = await TodoRepository.deletTodoById(id, hardDelete = false);
+            if (!todo) {
+                throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
             }
-        }
-        return {
-            message: 'deleted successfully'
-        }
+            return {
+                message: "deleted successfully"
+            }
 
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

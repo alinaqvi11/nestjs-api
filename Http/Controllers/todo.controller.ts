@@ -23,20 +23,20 @@ export class TodoController {
     @Post('/')
     async create(@Body() todo, @Res() res) {
         const createdTodo = await this.todoService.createTodo(todo);
-        res.send({ data: createdTodo })
+        res.send(createdTodo)
 
     }
 
     @Put(':id')
     async update(@Body() todo, @Res() res, @Param() params) {
         const updatedUser = await this.todoService.updateTodo(todo, params.id);
-        res.send({ data: updatedUser })
+        res.send(updatedUser)
     }
 
     @Delete(':id')
     async deleteUser(@Param() params, @Res() res, @Query() query) {
         const hardDelete = query;
         const deletedTodo = await this.todoService.deleteTodo(params.id, hardDelete);
-        res.send({ data: deletedTodo })
+        res.send(deletedTodo)
     }
 }

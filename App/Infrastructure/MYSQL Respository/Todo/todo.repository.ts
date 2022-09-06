@@ -1,4 +1,3 @@
-import { Logger } from "@nestjs/common";
 import TodoModel from "App/Infrastructure/Model/todo.model";
 import { ITodoRepository } from "App/Domain/Core/Todo/ITodoRepository";
 import { TodoEntity } from "App/Domain/Core/Todo/todo.entity";

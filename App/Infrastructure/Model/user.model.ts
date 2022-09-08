@@ -1,5 +1,5 @@
-import { Table, Column, Model, DataType, PrimaryKey, Unique, AllowNull, IsUUID, IsEmail, HasOne } from 'sequelize-typescript';
-import TodoModel from './todo.model';
+import { Table, Column, Model, DataType, PrimaryKey, Unique, AllowNull, IsUUID, IsEmail, HasOne, HasMany } from 'sequelize-typescript';
+import Todo from './todo.model';
 
 @Table({
     tableName: 'user',
@@ -39,7 +39,7 @@ export default class User extends Model<User> {
     })
     password: string;
 
-    @HasOne(() => TodoModel)
-    todo: TodoModel;
+    @HasMany(() => Todo)
+    todos: Todo[];
 
 }

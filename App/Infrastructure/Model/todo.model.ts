@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, PrimaryKey, Unique, AllowNull, IsUUID, ForeignKey } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, PrimaryKey, Unique, AllowNull, IsUUID, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import User from './user.model';
 
 @Table({
@@ -19,14 +19,6 @@ export default class Todo extends Model<Todo> {
     todoId: string;
 
     @AllowNull(false)
-    @ForeignKey(() => User)
-    @Column
-        ({
-            type: DataType.STRING({ length: 50 }),
-        })
-    userId: string;
-
-    @AllowNull(false)
     @Column({
         type: DataType.STRING({ length: 50 }),
     })
@@ -37,5 +29,16 @@ export default class Todo extends Model<Todo> {
         type: DataType.STRING({ length: 100 }),
     })
     todoDescription: string;
+
+    @AllowNull(false)
+    @ForeignKey(() => User)
+    @Column
+        ({
+            type: DataType.STRING({ length: 50 }),
+        })
+    userId: string;
+
+    @BelongsTo(() => User)
+    user: User
 
 }

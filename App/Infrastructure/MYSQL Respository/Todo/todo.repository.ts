@@ -1,14 +1,16 @@
-import TodoModel from "App/Infrastructure/Model/todo.model";
+import Todo from "App/Infrastructure/Model/todo.model";
 import { ITodoRepository } from "App/Domain/Core/Todo/ITodoRepository";
 import { TodoEntity } from "App/Domain/Core/Todo/todo.entity";
 import DatabaseError from "App/Infrastructure/Errors/DatabaseError";
+import { Injectable } from "@nestjs/common";
 
-class UserRepository implements ITodoRepository {
+@Injectable()
+class TodoRepository implements ITodoRepository {
     constructor() { }
 
     async fetchAll() {
         try {
-            const todos = await TodoModel.findAll();
+            const todos = await Todo.findAll();
             return todos.map(todoObj => {
                 return TodoEntity.createFromObject(todoObj)
             })
@@ -18,7 +20,7 @@ class UserRepository implements ITodoRepository {
     }
     async fetchById(searchFilter) {
         try {
-            return TodoModel.findOne({
+            return Todo.findOne({
                 where: searchFilter
             })
 
@@ -29,7 +31,7 @@ class UserRepository implements ITodoRepository {
 
     async createTodo(body) {
         try {
-            return TodoModel.create(body);
+            return Todo.create(body);
             return true;
 
         } catch (error) {
@@ -39,7 +41,7 @@ class UserRepository implements ITodoRepository {
 
     async updateTodo(body) {
         try {
-            return TodoModel.update(body,
+            return Todo.update(body,
                 {
                     where: {
                         todoId: body.todoId
@@ -54,7 +56,7 @@ class UserRepository implements ITodoRepository {
 
     async deletTodoById(id, hardDelete) {
         try {
-            return TodoModel.destroy(
+            return Todo.destroy(
                 {
                     where: {
                         todoId: id
@@ -71,4 +73,4 @@ class UserRepository implements ITodoRepository {
 
 }
 
-export default new UserRepository()
+export default TodoRepository

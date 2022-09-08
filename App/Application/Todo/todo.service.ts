@@ -6,11 +6,11 @@ import { v4 as uuid } from 'uuid';
 @Injectable()
 export class TodoService {
 
-    constructor() { }
+    constructor(private todoRepository: TodoRepository) { }
 
     async getTodos() {
         try {
-            return TodoRepository.fetchAll()
+            return this.todoRepository.fetchAll()
 
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -21,7 +21,7 @@ export class TodoService {
 
     async getTodoById(id) {
         try {
-            const todo = await TodoRepository.fetchById({ id });
+            const todo = await this.todoRepository.fetchById({ id });
             if (!todo) {
                 throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
             }
@@ -38,7 +38,7 @@ export class TodoService {
             const todoBody = body;
             const todoId = uuid();
             const todoDto = await TodoEntity.createFromInput(todoId, todoBody)
-            const createdTodo = await TodoRepository.createTodo(todoDto);
+            const createdTodo = await this.todoRepository.createTodo(todoDto);
             if (createdTodo) {
                 return {
                     message: "created successfully"
@@ -59,7 +59,7 @@ export class TodoService {
         try {
             const todoBody = body;
             const todoDto = await TodoEntity.createFromInput(id, body)
-            const updatedTodo = await TodoRepository.updateTodo(todoDto);
+            const updatedTodo = await this.todoRepository.updateTodo(todoDto);
             if (updatedTodo) {
                 return {
                     message: 'updated successfully'
@@ -78,7 +78,7 @@ export class TodoService {
 
     async deleteTodo(id, hardDelete) {
         try {
-            const todo = await TodoRepository.deletTodoById(id, hardDelete = false);
+            const todo = await this.todoRepository.deletTodoById(id, hardDelete = false);
             if (!todo) {
                 throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
             }

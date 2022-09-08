@@ -1,12 +1,16 @@
-import UserModel from "App/Infrastructure/Model/user.model";
+import User from "App/Infrastructure/Model/user.model";
 import DatabaseError from "App/Infrastructure/Errors/DatabaseError";
+import { IUserRepository } from "App/Domain/Core/User/IUserRepository";
+import { Injectable } from "@nestjs/common";
 
-class UserRepository {
+@Injectable()
+class UserRepository implements IUserRepository {
     constructor() { }
+
 
     async fetchUser(email) {
         try {
-            return UserModel.findOne({
+            return User.findOne({
                 where: {
                     email
                 }
@@ -20,7 +24,7 @@ class UserRepository {
 
     async createUser(body) {
         try {
-            return UserModel.create(body)
+            return User.create(body)
         } catch (err) {
             throw new DatabaseError(err.message)
 
@@ -28,4 +32,4 @@ class UserRepository {
     }
 }
 
-export default new UserRepository();
+export default UserRepository;

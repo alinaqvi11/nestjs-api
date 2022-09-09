@@ -6,9 +6,8 @@ import { userProvider } from 'App/Infrastructure/MYSQL Respository/User/user.rep
 
 @Module({
     imports: [],
-    providers: [UserService, ...userProvider],
+    providers: [UserService, UserRepository],
     controllers: [UserController],
-    // exports: [UserService],
 })
 
 export class UserModule { }

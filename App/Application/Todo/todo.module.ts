@@ -6,7 +6,7 @@ import TodoRepository from 'App/Infrastructure/MYSQL Respository/Todo/todo.repos
 
 @Module({
     imports: [],
-    providers: [TodoService, ...todoProvider],
+    providers: [TodoService, TodoRepository],
     controllers: [TodoController],
 })
 

@@ -37,6 +37,7 @@ export class TodoService {
         try {
             const todoBody = body;
             const todoId = uuid();
+            todoBody.userId = 'ca56307f-78fe-48f7-aaae-3d960c009f69'
             const todoDto = await TodoEntity.createFromInput(todoId, todoBody)
             const createdTodo = await this.todoRepository.createTodo(todoDto);
             if (createdTodo) {

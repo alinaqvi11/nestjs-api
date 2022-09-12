@@ -1,4 +1,4 @@
-import User from "App/Infrastructure/Model/user.model";
+import User from "App/Infrastructure/Model/User.model";
 import DatabaseError from "App/Infrastructure/Errors/DatabaseError";
 import { IUserRepository } from "App/Domain/Core/User/IUserRepository";
 import { Injectable } from "@nestjs/common";
@@ -7,7 +7,6 @@ import { Injectable } from "@nestjs/common";
 class UserRepository implements IUserRepository {
     constructor() { }
 
-
     async fetchUser(email) {
         try {
             return User.findOne({
@@ -15,7 +14,6 @@ class UserRepository implements IUserRepository {
                     email
                 }
             })
-
         } catch (err) {
             throw new DatabaseError(err.message)
 
@@ -27,9 +25,9 @@ class UserRepository implements IUserRepository {
             return User.create(body)
         } catch (err) {
             throw new DatabaseError(err.message)
-
         }
     }
+
 }
 
 export default UserRepository;

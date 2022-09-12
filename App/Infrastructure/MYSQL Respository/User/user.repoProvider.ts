@@ -1,6 +1,5 @@
-import User from "App/Infrastructure/Model/user.model";
-import UserRepository from 'App/Infrastructure/MYSQL Respository/User/user.repository';
-import { IUserRepository } from "App/Domain/Core/User/IUserRepository";
+import User from "App/Infrastructure/Model/User.model";
+import UserRepository from 'App/Infrastructure/MYSQL Respository/User/User.repository';
 
 export const userProvider = [{
     provide: UserRepository,

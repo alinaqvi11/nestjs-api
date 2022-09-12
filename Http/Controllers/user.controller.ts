@@ -1,5 +1,6 @@
-import { Controller, Post, Body, Get, Put, Delete, Param, Res, Req, Query } from '@nestjs/common';
-import { UserService } from '../../App/Application/User/user.service';
+import { Controller, Post, Body, Res } from '@nestjs/common';
+import { UserService } from '../../App/Application/User/User.service';
+import HttpResponse from 'Http/Utils/HttpResponse';
 
 @Controller('user')
 export class UserController {
@@ -9,12 +10,12 @@ export class UserController {
     async login(@Res() res, @Body() body) {
         const { email, password } = body;
         const user = await this.userService.login(email, password)
-        res.send(user)
+        HttpResponse.convertToExpress(res, user)
     }
 
     @Post('/signup')
     async createUser(@Res() res, @Body() body) {
         const user = await this.userService.createUser(body)
-        res.send(user);
+        HttpResponse.convertToExpress(res, user)
     }
 }

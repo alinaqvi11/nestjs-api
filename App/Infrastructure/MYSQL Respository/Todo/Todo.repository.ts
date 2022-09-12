@@ -1,6 +1,6 @@
-import Todo from "App/Infrastructure/Model/todo.model";
+import Todo from "App/Infrastructure/Model/Todo.model";
 import { ITodoRepository } from "App/Domain/Core/Todo/ITodoRepository";
-import { TodoEntity } from "App/Domain/Core/Todo/todo.entity";
+import { TodoEntity } from "App/Domain/Core/Todo/Todo.entity";
 import DatabaseError from "App/Infrastructure/Errors/DatabaseError";
 import { Injectable } from "@nestjs/common";
 
@@ -8,7 +8,7 @@ import { Injectable } from "@nestjs/common";
 class TodoRepository implements ITodoRepository {
     constructor() { }
 
-    async fetchAll() {
+    async fetchAll(): Promise<any> {
         try {
             const todos = await Todo.findAll();
             return todos.map(todoObj => {
@@ -18,57 +18,57 @@ class TodoRepository implements ITodoRepository {
             throw new DatabaseError(error.message);
         }
     }
-    async fetchById(searchFilter) {
+    async fetchById(searchFilter): Promise<any> {
         try {
             return Todo.findOne({
                 where: searchFilter
             })
-
         } catch (error) {
             throw new DatabaseError(error.message);
         }
     }
 
-    async createTodo(body) {
+    async createTodo(body): Promise<boolean> {
         try {
-            return Todo.create(body);
-            return true;
-
+            await Todo.create(body);
+            return true
         } catch (error) {
             throw new DatabaseError(error.message);
         }
     }
 
-    async updateTodo(body) {
+    async updateTodo(todo): Promise<boolean> {
         try {
-            return Todo.update(body,
+            const todoObj = await Todo.update(todo,
                 {
                     where: {
-                        todoId: body.todoId
+                        todoId: todo.todoId,
+                        userId: todo.userId
                     }
                 })
-            return true;
+            if (todoObj[0] === 0) {
 
+                return false;
+            }
+            return true
         } catch (error) {
             throw new DatabaseError(error.message);
         }
     }
 
-    async deletTodoById(id, hardDelete) {
+    async deletTodoById(id, hardDelete, body): Promise<number> {
         try {
             return Todo.destroy(
                 {
                     where: {
-                        todoId: id
+                        todoId: id,
+                        userId: body.userId
                     },
                     force: hardDelete
                 })
-            return true;
-
         } catch (error) {
             throw new DatabaseError(error.message);
         }
-
     }
 
 }

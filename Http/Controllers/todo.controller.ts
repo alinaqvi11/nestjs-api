@@ -1,6 +1,6 @@
-
-import { Controller, Post, Body, Get, Put, Delete, Param, Res, Req, Query } from '@nestjs/common';
-import { TodoService } from '../../App/Application/Todo/todo.service';
+import { Controller, Post, Body, Get, Put, Delete, Param, Res, Query } from '@nestjs/common';
+import { TodoService } from '../../App/Application/Todo/Todo.service';
+import HttpResponse from 'Http/Utils/HttpResponse';
 
 @Controller('todo')
 export class TodoController {
@@ -11,32 +11,31 @@ export class TodoController {
     @Get('/')
     async getAll(@Res() res) {
         const todos = await this.todoService.getTodos();
-        res.send({ data: todos })
+        HttpResponse.convertToExpress(res, todos)
     }
 
     @Get(':id')
-    async get(@Param() params, @Res() res) {
-        const todo = await this.todoService.getTodoById(params.id);
-        res.send({ data: todo })
+    async get(@Param() params, @Res() res, @Body() body) {
+        const todo = await this.todoService.getTodoById(params.id, body);
+        HttpResponse.convertToExpress(res, todo)
     }
 
     @Post('/')
-    async create(@Body() todo, @Res() res) {
-        const createdTodo = await this.todoService.createTodo(todo);
-        res.send(createdTodo)
-
+    async create(@Body() body, @Res() res) {
+        const todo = await this.todoService.createTodo(body);
+        HttpResponse.convertToExpress(res, todo)
     }
 
     @Put(':id')
-    async update(@Body() todo, @Res() res, @Param() params) {
-        const updatedUser = await this.todoService.updateTodo(todo, params.id);
-        res.send(updatedUser)
+    async update(@Body() body, @Res() res, @Param() params) {
+        const todo = await this.todoService.updateTodo(params.id, body);
+        HttpResponse.convertToExpress(res, todo)
     }
 
     @Delete(':id')
-    async deleteUser(@Param() params, @Res() res, @Query() query) {
+    async deleteUser(@Param() params, @Res() res, @Query() query, @Body() body,) {
         const hardDelete = query;
-        const deletedTodo = await this.todoService.deleteTodo(params.id, hardDelete);
-        res.send(deletedTodo)
+        const todo = await this.todoService.deleteTodo(params.id, hardDelete, body);
+        HttpResponse.convertToExpress(res, todo)
     }
 }

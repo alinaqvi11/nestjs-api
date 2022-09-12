@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
+import { UserService } from './User.service';
 import { UserController } from '../../../Http/Controllers/user.controller';
-import UserRepository from 'App/Infrastructure/MYSQL Respository/User/user.repository';
-import { userProvider } from 'App/Infrastructure/MYSQL Respository/User/user.repoProvider';
+import UserRepository from 'App/Infrastructure/MYSQL Respository/User/User.repository';
+import EncryptionService from 'App/Infrastructure/Services/EncryptionService';
 
 @Module({
     imports: [],
-    providers: [UserService, UserRepository],
+    providers: [UserService, UserRepository, EncryptionService],
     controllers: [UserController],
 })
 

@@ -1,5 +1,5 @@
 import { Table, Column, Model, DataType, PrimaryKey, Unique, AllowNull, IsUUID, IsEmail, HasOne, HasMany } from 'sequelize-typescript';
-import Todo from './todo.model';
+import Todo from './Todo.model';
 
 @Table({
     tableName: 'user',

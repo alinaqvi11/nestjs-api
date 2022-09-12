@@ -14,22 +14,22 @@ export class TodoEntity {
         this.todoDescription = todoDescription;
         this.userId = userId;
     }
-    static createFromInput = (todoId: string, body: any) => {
-        const todo = new TodoEntity(
+
+    static createFromInput = (todoId, body) => {
+        return new TodoEntity(
             todoId,
             body.todoName,
             body.todoDescription,
             body.userId
         );
-        return todo;
-
     };
-    static createFromObject = (obj: any) => {
+
+    static createFromObject = (obj) => {
         const todo = new TodoEntity(
             obj.todoId,
-            obj.userId,
             obj.todoName,
-            obj.todoDescription
+            obj.todoDescription,
+            obj.userId,
         );
         todo.createdAt = obj.createdAt;
         todo.updatedAt = obj.updatedAt;

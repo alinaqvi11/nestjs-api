@@ -1,13 +1,12 @@
 import * as bcrypt from 'bcrypt';
 
-
 class EncryptionService {
 
-    static hashPassword = (plaintText) => {
+    hashPassword = (plaintText) => {
         return bcrypt.hash(plaintText, 11);
     };
 
-    static comaparePassword = (plaintText, hash) => {
+    comparedPassword = (plaintText, hash) => {
         return bcrypt.compare(plaintText, hash);
     };
 }

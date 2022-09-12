@@ -13,7 +13,7 @@ async function bootstrap() {
   app.enableCors();
 
 
-  await app.init()
+  // await app.init()
   await app.listen(port, () => {
     Logger.log(`!!!!!!!!!!!!Server running on ${port}!!!!!!!!!!`)
   });

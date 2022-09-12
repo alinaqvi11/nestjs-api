@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Res } from '@nestjs/common';
-import { UserService } from '../../App/Application/User/User.service';
+import { UserService } from 'App/Application/User/User.service';
 import HttpResponse from 'Http/Utils/HttpResponse';
 
 @Controller('user')

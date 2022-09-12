@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, PrimaryKey, Unique, AllowNull, IsUUID, IsEmail, HasOne, HasMany } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, PrimaryKey, Unique, AllowNull, IsUUID, IsEmail, HasMany } from 'sequelize-typescript';
 import Todo from './Todo.model';
 
 @Table({

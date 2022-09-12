@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UserService } from './User.service';
-import { UserController } from '../../../Http/Controllers/user.controller';
-import UserRepository from 'App/Infrastructure/MYSQL Respository/User/User.repository';
+import { UserController } from 'Http/Controllers/user.controller';
+import UserRepository from 'App/Infrastructure/MYSQLRespository/User/User.repository';
 import EncryptionService from 'App/Infrastructure/Services/EncryptionService';
 
 @Module({

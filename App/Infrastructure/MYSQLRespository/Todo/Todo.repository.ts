@@ -4,6 +4,12 @@ import { TodoEntity } from "App/Domain/Core/Todo/Todo.entity";
 import DatabaseError from "App/Infrastructure/Errors/DatabaseError";
 import { Injectable } from "@nestjs/common";
 
+type searchFilterRequest = {
+    todoId: string,
+    userId: string
+};
+
+
 @Injectable()
 class TodoRepository implements ITodoRepository {
     constructor() { }
@@ -18,7 +24,7 @@ class TodoRepository implements ITodoRepository {
             throw new DatabaseError(error.message);
         }
     }
-    async fetchById(searchFilter): Promise<any> {
+    async fetchById(searchFilter: searchFilterRequest): Promise<Todo> {
         try {
             return Todo.findOne({
                 where: searchFilter
@@ -28,7 +34,7 @@ class TodoRepository implements ITodoRepository {
         }
     }
 
-    async createTodo(body): Promise<boolean> {
+    async createTodo(body: TodoEntity): Promise<boolean> {
         try {
             await Todo.create(body);
             return true
@@ -37,7 +43,7 @@ class TodoRepository implements ITodoRepository {
         }
     }
 
-    async updateTodo(todo): Promise<boolean> {
+    async updateTodo(todo: TodoEntity): Promise<boolean> {
         try {
             const todoObj = await Todo.update(todo,
                 {
@@ -56,13 +62,13 @@ class TodoRepository implements ITodoRepository {
         }
     }
 
-    async deletTodoById(id, hardDelete, body): Promise<number> {
+    async deletTodoById(todoId: string, hardDelete: boolean, userId: string): Promise<number> {
         try {
             return Todo.destroy(
                 {
                     where: {
-                        todoId: id,
-                        userId: body.userId
+                        todoId,
+                        userId
                     },
                     force: hardDelete
                 })

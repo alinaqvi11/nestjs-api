@@ -1,8 +1,9 @@
 import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { TodoEntity } from 'App/Domain/Core/Todo/Todo.entity';
-import TodoRepository from 'App/Infrastructure/MYSQL Respository/Todo/Todo.repository';
+import TodoRepository from 'App/Infrastructure/MYSQLRespository/Todo/Todo.repository';
 import { v4 as uuid } from 'uuid';
 import HttpResponse from 'Http/Utils/HttpResponse';
+
 
 @Injectable()
 export class TodoService {
@@ -41,10 +42,8 @@ export class TodoService {
         throw new HttpException('Not updated', HttpStatus.BAD_REQUEST)
     }
 
-    async deleteTodo(id, hardDelete, body) {
-        const todo = await this.todoRepository.deletTodoById(id, hardDelete = false, body);
-        console.log(todo);
-
+    async deleteTodo(todoId, hardDelete, userId) {
+        const todo = await this.todoRepository.deletTodoById(todoId, hardDelete = false, userId);
         if (!todo) {
             throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
         }

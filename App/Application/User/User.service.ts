@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import UserRepository from "App/Infrastructure/MYSQL Respository/User/User.repository"
+import UserRepository from "App/Infrastructure/MYSQLRespository/User/User.repository"
 import { v4 as uuid } from 'uuid';
 import EncryptionService from "App/Infrastructure/Services/EncryptionService";
 import HttpResponse from "Http/Utils/HttpResponse";

@@ -1,6 +1,7 @@
+import User from "App/Infrastructure/Model/User.model";
+import UserEntity from "./User.entity";
+
 export interface IUserRepository {
-
-    fetchUser(email): Promise<any>;
-    createUser(body): Promise<any>;
-
+    fetchUser(email: string): Promise<User>;
+    createUser(body: UserEntity): Promise<User>;
 }

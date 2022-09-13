@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from 'Http/app.module';
 import { Logger } from '@nestjs/common';
-
-
+import { RedisClient } from '../App/Infrastructure/Services/Redis/RedisClient'
 async function bootstrap() {
+  RedisClient.start()
   const port = process.env.PORT;
   const app = await NestFactory.create(AppModule,
     {
@@ -13,7 +13,6 @@ async function bootstrap() {
   app.enableCors();
 
 
-  // await app.init()
   await app.listen(port, () => {
     Logger.log(`!!!!!!!!!!!!Server running on ${port}!!!!!!!!!!`)
   });

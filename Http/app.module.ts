@@ -1,16 +1,23 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from 'App/Infrastructure/Database/database.module';
 import { TodoModule } from 'App/Application/Todo/todo.module';
 import { UserModule } from 'App/Application/User/user.module';
-
+import { Auth } from './Middlewares/auth';
+import { TodoController } from './Controllers/todo.controller';
 @Module({
-
   imports: [
     TodoModule,
     UserModule,
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
+    Auth
   ],
 })
-export class AppModule { }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(Auth)
+      .forRoutes(TodoController);
+  }
+}

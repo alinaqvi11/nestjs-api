@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Put, Delete, Param, Res, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, Put, Delete, Param, Res, Query, Req } from '@nestjs/common';
 import { TodoService } from 'App/Application/Todo/Todo.service';
 import HttpResponse from 'Http/Utils/HttpResponse';
 
@@ -21,8 +21,8 @@ export class TodoController {
     }
 
     @Post('/')
-    async create(@Body() body, @Res() res) {
-        const todo = await this.todoService.createTodo(body);
+    async create(@Body() body, @Res() res, @Req() req) {
+        const todo = await this.todoService.createTodo(req);
         HttpResponse.convertToExpress(res, todo)
     }
 

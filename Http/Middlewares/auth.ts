@@ -8,15 +8,15 @@ export class Auth implements NestMiddleware {
     use(req: Request, res: Response, next: NextFunction) {
         const token = req.header('x-auth-token');
         if (!token) {
-            return res.status(403).send("A token is required for authentication");
+            return res.status(403).send({ message: "A token is required for authentication" });
         }
         try {
-            const decoded: any = this.jwtService.verify(token, { publicKey: 'alihaseeb' });
+            const decoded: any = this.jwtService.verify(token, { secret: 'secretKey' });
             console.log(decoded);
 
             req.user = decoded.id;
         } catch (err) {
-            return res.status(401).send("Invalid Token");
+            return res.status(401).send({ message: "Invalid Token" });
         }
         return next();
 

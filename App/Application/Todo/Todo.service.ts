@@ -23,8 +23,10 @@ export class TodoService {
         return HttpResponse.create(HttpStatus.OK, todo)
     }
 
-    async createTodo(body) {
+    async createTodo(req) {
         const todoId = uuid();
+        const body = req.body;
+        body.userId = req.user;
         const dtoTodo = await TodoEntity.createFromInput(todoId, body)
         const daoTodo = await this.todoRepository.createTodo(dtoTodo);
         if (daoTodo) {

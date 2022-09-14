@@ -17,8 +17,8 @@ export class UserService {
         const comparedPassword = await this.encryptionService.comparedPassword(password, user.password)
         if (user && comparedPassword) {
             const userObj = await UserEntity.createFromObject(user);
-            const payload = { id: user.id, email: user.email }
-            const token = this.jwtService.sign(payload);
+            const payload = { id: user.id }
+            const token = this.jwtService.sign(payload, { secret: 'secretKey', expiresIn: '7d' });
             return HttpResponse.create(HttpStatus.OK, { userObj, token });
         }
         throw new HttpException('Invalid Email or Password', HttpStatus.BAD_REQUEST)
@@ -36,8 +36,8 @@ export class UserService {
         const dtoUser = await UserEntity.createFromInput(id, userBody)
         const daoUser = await this.userRepository.createUser(dtoUser);
         if (daoUser) {
-            const payload = { id: daoUser.id, email: daoUser.email }
-            const token = this.jwtService.sign(payload);
+            const payload = { id: daoUser.id }
+            const token = this.jwtService.sign(payload, { secret: 'secretKey', expiresIn: '7d' });
             return HttpResponse.create(HttpStatus.CREATED, { message: 'Created Successfully', token })
         }
         throw new HttpException('user not created', HttpStatus.BAD_REQUEST)

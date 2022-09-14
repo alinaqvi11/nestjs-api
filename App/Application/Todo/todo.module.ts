@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TodoService } from './Todo.service';
 import { TodoController } from 'Http/Controllers/todo.controller';
 import TodoRepository from 'App/Infrastructure/MYSQLRespository/Todo/Todo.repository';
+import { Auth } from 'Http/Middlewares/auth';
 
 @Module({
     imports: [],
@@ -9,4 +10,10 @@ import TodoRepository from 'App/Infrastructure/MYSQLRespository/Todo/Todo.reposi
     controllers: [TodoController],
 })
 
-export class TodoModule { }
+export class TodoModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(Auth)
+            .forRoutes(TodoController);
+    }
+}

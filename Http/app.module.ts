@@ -14,10 +14,4 @@ import { TodoController } from './Controllers/todo.controller';
     Auth
   ],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(Auth)
-      .forRoutes(TodoController);
-  }
-}
+export class AppModule { }

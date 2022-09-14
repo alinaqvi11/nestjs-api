@@ -1,4 +1,4 @@
-import Todo from "App/Infrastructure/Model/Todo.model";
+import Todo from "App/Infrastructure/Database/Model/Todo.model";
 import { TodoEntity } from "./Todo.entity";
 
 type searchFilterRequest = {
@@ -12,5 +12,5 @@ export interface ITodoRepository {
     fetchById(searchFilter: searchFilterRequest): Promise<Todo>;
     createTodo(body: TodoEntity): Promise<boolean>;
     updateTodo(todo: TodoEntity): Promise<boolean>;
-    deletTodoById(id: string, hardDelete: boolean, userId: string): Promise<number>
+    deletTodoById(id: string, userId: string, hardDelete: boolean): Promise<number>
 }

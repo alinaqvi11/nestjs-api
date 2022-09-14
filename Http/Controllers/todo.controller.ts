@@ -9,34 +9,33 @@ export class TodoController {
 
 
     @Get('/')
-    async getAll(@Res() res) {
+    async getAll(@Res() res, @Req() req) {
         const todos = await this.todoService.getTodos();
         HttpResponse.convertToExpress(res, todos)
     }
 
     @Get(':todoId')
-    async get(@Param() params, @Res() res, @Body() body) {
-        const todo = await this.todoService.getTodoById(params.todoId, body);
+    async get(@Param() params, @Res() res, @Body() body, @Req() req) {
+        const todo = await this.todoService.getTodoById(req.params.todoId, req.user);
         HttpResponse.convertToExpress(res, todo)
     }
 
     @Post('/')
     async create(@Body() body, @Res() res, @Req() req) {
-        const todo = await this.todoService.createTodo(req);
+        const todo = await this.todoService.createTodo(req.body, req.user);
         HttpResponse.convertToExpress(res, todo)
     }
 
     @Put(':todoId')
-    async update(@Body() body, @Res() res, @Param() params) {
-        const todo = await this.todoService.updateTodo(params.todoId, body);
+    async update(@Body() body, @Res() res, @Param() params, @Req() req) {
+        const todo = await this.todoService.updateTodo(req.params.todoId, req.body, req.user);
         HttpResponse.convertToExpress(res, todo)
     }
 
-    @Delete(':todoId/:userId')
-    async deleteUser(@Param() params, @Res() res, @Query() query) {
-        const { todoId, userId } = params;
-        const hardDelete = query;
-        const todo = await this.todoService.deleteTodo(todoId, hardDelete, userId);
+    @Delete(':todoId')
+    async deleteUser(@Param() params, @Res() res, @Query() query, @Req() req) {
+        const hardDelete: boolean = query;
+        const todo = await this.todoService.deleteTodo(req.params.todoId, req.user, hardDelete);
         HttpResponse.convertToExpress(res, todo)
     }
 }

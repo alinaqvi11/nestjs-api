@@ -1,4 +1,4 @@
-import User from "App/Infrastructure/Model/User.model";
+import User from "App/Infrastructure/Database/Model/User.model";
 import UserEntity from "./User.entity";
 
 export interface IUserRepository {

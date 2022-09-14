@@ -1,4 +1,4 @@
-import Todo from "App/Infrastructure/Model/Todo.model";
+import Todo from "App/Infrastructure/Database/Model/Todo.model";
 import TodoRepository from "./Todo.repository";
 
 export const todoProvider = [{

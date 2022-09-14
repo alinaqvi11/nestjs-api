@@ -1,8 +1,8 @@
 import { Logger } from '@nestjs/common';
 import { Sequelize } from 'sequelize-typescript';
-import Todo from '../Model/Todo.model';
+import Todo from './Model/Todo.model';
 import { database } from '../Config/index';
-import User from '../Model/User.model';
+import User from './Model/User.model';
 
 const mysql = database;
 

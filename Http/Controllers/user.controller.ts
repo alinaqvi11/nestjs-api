@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Res } from '@nestjs/common';
 import { UserService } from 'App/Application/User/User.service';
 import HttpResponse from 'Http/Utils/HttpResponse';
-
+import { IUserService } from 'App/Application/User/IUserService';
 @Controller('user')
 export class UserController {
     constructor(private userService: UserService) { }

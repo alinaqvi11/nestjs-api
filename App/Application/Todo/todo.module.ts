@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TodoService } from './Todo.service';
 import { TodoController } from 'Http/Controllers/todo.controller';
-import TodoRepository from 'App/Infrastructure/MYSQLRespository/Todo/Todo.repository';
+import TodoRepository from 'App/Infrastructure/Database/Todo/Todo.repository';
 import { Auth } from 'Http/Middlewares/auth';
 
 @Module({

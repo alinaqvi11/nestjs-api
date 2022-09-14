@@ -1,12 +1,13 @@
 import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { TodoEntity } from 'App/Domain/Core/Todo/Todo.entity';
-import TodoRepository from 'App/Infrastructure/MYSQLRespository/Todo/Todo.repository';
+import TodoRepository from 'App/Infrastructure/Database/Todo/Todo.repository';
 import { v4 as uuid } from 'uuid';
 import HttpResponse from 'Http/Utils/HttpResponse';
+import { ITodoService } from './ITodoService'
 
 
 @Injectable()
-export class TodoService {
+export class TodoService implements ITodoService {
 
     constructor(private todoRepository: TodoRepository) { }
 
@@ -15,18 +16,18 @@ export class TodoService {
         return HttpResponse.create(HttpStatus.OK, todos)
     }
 
-    async getTodoById(id, body) {
-        const todo = await this.todoRepository.fetchById({ todoId: id, userId: body.userId });
+    async getTodoById(todoId: string, userId: string): Promise<any> {
+        const todo = await this.todoRepository.fetchById({ todoId, userId });
         if (!todo) {
             throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
         }
         return HttpResponse.create(HttpStatus.OK, todo)
     }
 
-    async createTodo(req) {
+    async createTodo(body, userId: string) {
         const todoId = uuid();
-        const body = req.body;
-        body.userId = req.user;
+        const todoBody = body;
+        todoBody.userId = userId;
         const dtoTodo = await TodoEntity.createFromInput(todoId, body)
         const daoTodo = await this.todoRepository.createTodo(dtoTodo);
         if (daoTodo) {
@@ -35,8 +36,10 @@ export class TodoService {
         throw new HttpException('Not created', HttpStatus.BAD_REQUEST)
     }
 
-    async updateTodo(id, body) {
-        const dtoTodo = await TodoEntity.createFromInput(id, body)
+    async updateTodo(todoId: string, body, userId: string) {
+        const todoBody = body;
+        body.userId = userId;
+        const dtoTodo = await TodoEntity.createFromInput(todoId, body)
         const daoTodo = await this.todoRepository.updateTodo(dtoTodo);
         if (daoTodo) {
             return HttpResponse.create(HttpStatus.OK, { message: 'updated successfully' })
@@ -44,8 +47,8 @@ export class TodoService {
         throw new HttpException('Not updated', HttpStatus.BAD_REQUEST)
     }
 
-    async deleteTodo(todoId, hardDelete, userId) {
-        const todo = await this.todoRepository.deletTodoById(todoId, hardDelete = false, userId);
+    async deleteTodo(todoId: string, userId: string, hardDelete: boolean) {
+        const todo = await this.todoRepository.deletTodoById(todoId, userId, hardDelete);
         if (!todo) {
             throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
         }

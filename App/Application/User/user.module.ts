@@ -1,18 +1,15 @@
 import { Module } from '@nestjs/common';
 import { UserService } from './User.service';
 import { UserController } from 'Http/Controllers/user.controller';
-import UserRepository from 'App/Infrastructure/MYSQLRespository/User/User.repository';
+import UserRepository from 'App/Infrastructure/Database/User/User.repository';
 import EncryptionService from 'App/Infrastructure/Services/Encryption/EncryptionService';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { DatabaseModule } from 'App/Infrastructure/Database/database.module';
+
 
 @Module({
-    imports: [JwtModule.register({
-        // secret: 'secretKey',
-        // signOptions: { expiresIn: '60m' },
-    })],
-    providers: [UserService, UserRepository, EncryptionService,],
+    imports: [],
+    providers: [UserService, EncryptionService, UserRepository],
     controllers: [UserController],
-    exports: [UserRepository]
 })
 
 export class UserModule { }

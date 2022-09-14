@@ -1,4 +1,4 @@
-import User from "App/Infrastructure/Model/User.model";
+import User from "App/Infrastructure/Database/Model/User.model";
 import DatabaseError from "App/Infrastructure/Errors/DatabaseError";
 import { IUserRepository } from "App/Domain/Core/User/IUserRepository";
 import { Injectable } from "@nestjs/common";

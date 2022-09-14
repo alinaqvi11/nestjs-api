@@ -1,4 +1,4 @@
-import Todo from "App/Infrastructure/Model/Todo.model";
+import Todo from "App/Infrastructure/Database/Model/Todo.model";
 import { ITodoRepository } from "App/Domain/Core/Todo/ITodoRepository";
 import { TodoEntity } from "App/Domain/Core/Todo/Todo.entity";
 import DatabaseError from "App/Infrastructure/Errors/DatabaseError";
@@ -62,8 +62,10 @@ class TodoRepository implements ITodoRepository {
         }
     }
 
-    async deletTodoById(todoId: string, hardDelete: boolean, userId: string): Promise<number> {
+    async deletTodoById(todoId: string, userId: string, hardDelete: boolean,): Promise<number> {
         try {
+            console.log(hardDelete);
+
             return Todo.destroy(
                 {
                     where: {

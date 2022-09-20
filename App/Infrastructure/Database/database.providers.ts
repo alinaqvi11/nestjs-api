@@ -1,8 +1,8 @@
-import { Logger } from '@nestjs/common';
 import { Sequelize } from 'sequelize-typescript';
 import Todo from './Model/Todo.model';
 import { database } from '../Config/index';
 import User from './Model/User.model';
+import { logger } from '../Logger/logger';
 
 const mysql = database;
 
@@ -22,7 +22,7 @@ export const databaseProviders = [
 
             sequelize.addModels([Todo, User]);
             await sequelize.sync();
-            Logger.log("!!!!!!!!Database connected successfully!!!!!!!!!")
+            logger.info("!!!!!!!!Database connected successfully!!!!!!!!!")
             return sequelize;
         },
     },

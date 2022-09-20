@@ -1,15 +1,15 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import UserRepository from "App/Infrastructure/Database/User/User.repository"
 import { v4 as uuid } from 'uuid';
 import EncryptionService from "App/Infrastructure/Services/Encryption/EncryptionService";
 import HttpResponse from "Http/Utils/HttpResponse";
 import UserEntity from "App/Domain/Core/User/User.entity";
 import * as jwt from 'jsonwebtoken'
-import { IUserService } from "./IUserService";
+import { IUserRepository } from "App/Domain/Core/User/IUserRepository";
 
 @Injectable()
-export class UserService implements IUserService {
-    constructor(private userRepository: UserRepository, private encryptionService: EncryptionService) { }
+export class UserService  {
+    constructor(@Inject('IUserRepository') private userRepository: IUserRepository, private encryptionService: EncryptionService) { }
 
     async login(email: string, password: string) {
         const user = await this.userRepository.fetchUser(email);

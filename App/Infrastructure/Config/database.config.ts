@@ -1,7 +1,6 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 import { IDatabaseConfig } from './types/database.type';
-import { Logger } from '@nestjs/common';
 
 export const database: IDatabaseConfig = {
   USERNAME: process.env.DB_USER,

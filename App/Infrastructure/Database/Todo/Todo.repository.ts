@@ -4,11 +4,6 @@ import { TodoEntity } from "App/Domain/Core/Todo/Todo.entity";
 import DatabaseError from "App/Infrastructure/Errors/DatabaseError";
 import { Injectable } from "@nestjs/common";
 
-type searchFilterRequest = {
-    todoId: string,
-    userId: string
-};
-
 
 @Injectable()
 class TodoRepository implements ITodoRepository {
@@ -24,10 +19,10 @@ class TodoRepository implements ITodoRepository {
             throw new DatabaseError(error.message);
         }
     }
-    async fetchById(searchFilter: searchFilterRequest): Promise<Todo> {
+    async fetchById(todoId : string): Promise<Todo> {
         try {
             return Todo.findOne({
-                where: searchFilter
+                where: {todoId}
             })
         } catch (error) {
             throw new DatabaseError(error.message);
@@ -62,15 +57,12 @@ class TodoRepository implements ITodoRepository {
         }
     }
 
-    async deletTodoById(todoId: string, userId: string, hardDelete: boolean,): Promise<number> {
+    async deletTodoById(todoId: string, hardDelete: boolean,): Promise<number> {
         try {
-            console.log(hardDelete);
-
             return Todo.destroy(
                 {
                     where: {
                         todoId,
-                        userId
                     },
                     force: hardDelete
                 })
